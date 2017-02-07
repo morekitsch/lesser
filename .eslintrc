@@ -1,0 +1,7 @@
+//npm install --save eslint-config-rallycoding
+{
+  "extends": "rallycoding",
+  "rules": {
+    "arrow-body-style": 0
+    }
+}
