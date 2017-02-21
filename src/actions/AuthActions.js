@@ -1,4 +1,6 @@
 import firebase from 'firebase';
+import { purgeStoredState } from 'redux-persist';
+import { AsyncStorage } from 'react-native';
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
@@ -43,7 +45,7 @@ export const logOutUser = () => {
     dispatch({ type: LOGOUT_USER });
 
     firebase.auth().signOut()
-      .then(() => logOutUserSuccess(dispatch, 'nobody'))
+      .then(() => logOutUserSuccessPurgeCache(dispatch, ''))
       .catch(() => logOutUserFail(dispatch));
   };
 };
@@ -64,7 +66,13 @@ const logOutUserFail = (dispatch) => {
   dispatch({ type: LOGOUT_USER_FAIL });
 };
 
-const logOutUserSuccess = (dispatch, user) => {
+const logOutUserSuccessPurgeCache = (dispatch, user) => {
+  purgeStoredState({ storage: AsyncStorage }).then(() => {
+    console.log('purge of someReducer completed');
+  }).catch(() => {
+    console.log('purge of someReducer failed');
+  });
+
   dispatch({
     type: LOGOUT_USER_SUCCESS,
     payload: user

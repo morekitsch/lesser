@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
 import AuthReducer from './AuthReducer';
-import EmployeeFormReducer from './EmployeeFormReducer';
-import EmployeeReducer from './EmployeeReducer';
 import UIReducer from './UIReducer';
+import GeoReducer from './GeoReducer';
 
 export default combineReducers({
   auth: AuthReducer,
+  geo: GeoReducer,
   UI: UIReducer,
-  employeeForm: EmployeeFormReducer,
-  employees: EmployeeReducer
 });

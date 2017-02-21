@@ -4,18 +4,23 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import {
-  Container, Header, Left, Body, Title,
+  Container, Header, Left, Body, Title, Text,
   Content, Footer, FooterTab, Button, Icon
  } from 'native-base';
-import { drawerToggleAction } from './actions';
+import { drawerToggleAction, geoDriverCreate, geoDriverGet } from './actions';
 
 class Main extends Component {
 
-  state = {
-    duration: 'Map',
-   };
+   state = {
+       duration: 'Map',
+       position: {
+         latitude: 5,
+         longitude: 5
+       },
+       lastPostion: 'unknown'
+    };
 
-   watchID = (null: ?number);
+    watchID: ?number = null;
 
   componentDidMount() {
     const config = {
@@ -48,7 +53,25 @@ class Main extends Component {
       (error) => alert(JSON.stringify(error)),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-  }
+    this.watchID = navigator.geolocation.watchPosition(({ coords }) => {
+      const { latitude, longitude } = coords;
+      this.setState({
+        position: {
+          latitude,
+          longitude,
+        }
+      });
+      console.log(this.state.position.longitude);
+      console.log(this.state.position.latitude);
+    });
+    /*const posi = { position: { latitude: 12, longitude: 13 } };
+geoDriverCreate(posi);
+
+     Toggle the state every second
+    setInterval(() => {
+       this.props.geoDriverSet(this.state.positio);
+    }, 15000); */
+}
 
   componentWillUnmount = () => {
      navigator.geolocation.clearWatch(this.watchID);
@@ -65,6 +88,13 @@ class Main extends Component {
     }
   }
 
+createDB() {
+  this.props.geoDriverCreate(this.state.position);
+}
+
+getDB() {
+  this.props.geoDriverGet();
+}
 
   render() {
     const { duration, region, position } = this.state;
@@ -84,7 +114,7 @@ class Main extends Component {
             </Left>
             <Body>
               <Title>
-                #{duration}
+                <Text>#{duration}</Text><Text>#</Text>
               </Title>
             </Body>
         </Header>
@@ -114,10 +144,10 @@ class Main extends Component {
             <Button transparent onPress={this.getTravelTime.bind(this)}>
               <Icon name="map" />
             </Button>
-            <Button transparent>
+            <Button transparent onPress={this.createDB.bind(this)}>
               <Icon name="map" />
             </Button>
-            <Button transparent>
+            <Button transparent onPress={this.getDB.bind(this)}>
               <Icon name="map" />
             </Button>
           </FooterTab>
@@ -140,9 +170,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ UI }) => {
-  const { drawerOpened } = UI;
-  return { drawerOpened };
+  const { drawerOpened, position } = UI;
+  return { drawerOpened, position };
 };
 
 export default connect(mapStateToProps, {
-  drawerToggleAction })(Main);
+  drawerToggleAction, geoDriverCreate, geoDriverGet })(Main);

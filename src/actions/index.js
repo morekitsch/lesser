@@ -1,3 +1,3 @@
 export * from './AuthActions';
-export * from './EmployeeActions';
+export * from './GeoActions';
 export * from './UIActions';

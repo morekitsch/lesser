@@ -14,3 +14,7 @@ export const EMPLOYEES_FETCH_SUCCESS = 'employee_fetch_success';
 export const EMPLOYEE_SAVE_SUCCESS = 'employee_save_success';
 
 export const UI_DRAWER_TOGGLE = 'ui_drawer_toggle';
+
+export const GEO_DRIVER_CREATE = 'geo_driver_create';
+export const GEO_DRIVER_SET = 'geo_driver_set';
+export const GEO_DRIVER_GET = 'geo_driver_get';

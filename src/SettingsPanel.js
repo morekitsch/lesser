@@ -36,7 +36,7 @@ class SettingsPanel extends Component {
     if (this.props.loading) {
       return <Spinner size="large" />;
     }
-    
+
     if (!this.props.user) {
       return (
         <View>
@@ -45,7 +45,7 @@ class SettingsPanel extends Component {
             onPress={this.onLoginPress.bind(this)}
             style={styles.submitButton}
           >
-              <Text>Sign Up</Text>
+              <Text>Sign Up!</Text>
           </Button>
         </View>
       );
@@ -69,7 +69,7 @@ class SettingsPanel extends Component {
       <Container>
         <Header style={styles.headerStyle}>
           <Left>
-            <Icon name="settings" />
+            <Icon name="settings" style={{ color: '#FFFFFF' }} />
           </Left>
           <Body>
             <Title>{this.props.title}</Title>
